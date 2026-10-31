@@ -1,71 +1,173 @@
-# Federated-Learning-Network-Intrusion-Detection
-Federated Learning based Network Intrusion Detection using Python
-Federated Learning for Network Intrusion Detection
-A small, beginner-friendly Computer Networks mini-project. It demonstrates how multiple network clients can train a shared intrusion-detection model without sending their raw traffic records to a central server.
+# Federated Learning for Network Intrusion Detection
 
-What the project does
-Creates four simulated network clients, each with its own local traffic records.
-Generates six normalized traffic features and a binary label: 0 = benign, 1 = attack.
-Trains a logistic-regression model locally at each client.
-Sends only a JSON model update (client ID, sample count, weights, and bias) to the coordinator over a TCP socket on 127.0.0.1.
-Uses sample-weighted Federated Averaging (FedAvg) to combine client updates and sends the global parameters back to each client over TCP. This repeats for 25 rounds.
-Evaluates the final global model and saves metrics and plots in outputs/.
-Important: This is an educational prototype using synthetic data. Four client workers and the coordinator run on one computer and communicate using real TCP sockets over the loopback interface (127.0.0.1); the demo does not use separate physical machines. It is not trained or validated on live network traffic or a standard intrusion-detection benchmark, and its scores must not be interpreted as real-world security performance. The prototype has no authentication or encryption. Federated learning reduces the need to centralize raw records, but model updates can still reveal information; production systems need secure aggregation, authentication, encryption, and privacy protections.
+### Computer Networks – Mini Project
 
-Requirements
-Python 3.10 or newer
-NumPy
-pandas
-Matplotlib
-Run the project
-Open a terminal in this folder and run:
+**Project Phase – 1**
 
-python -m venv .venv
-Activate the environment:
+A machine learning-based network intrusion detection prototype using Federated Learning, Logistic Regression, TCP socket communication, and Federated Averaging (FedAvg).
 
-Windows PowerShell
+---
 
-.\.venv\Scripts\Activate.ps1
-Windows Command Prompt
+## 1. Project Overview
 
-.venv\Scripts\activate.bat
-Install dependencies and run:
+Network intrusion detection is an important part of cybersecurity. Traditional intrusion detection systems often rely on collecting network traffic data at a central location for analysis and model training. However, sharing sensitive network data can create privacy and security concerns.
 
-python -m pip install -r requirements.txt
-python main.py
-The program prints accuracy, precision, recall, F1-score and a confusion matrix. It creates:
+This project demonstrates **Federated Learning for Network Intrusion Detection**, where multiple independent clients train their own machine learning models locally and share only their model parameters with a central server.
 
-outputs/round_metrics.csv - test metrics for each federated round
-outputs/evaluation_metrics.json - final evaluation metrics
-outputs/final_model.json - final model parameters and feature names
-outputs/training_accuracy.png - training progress chart
-outputs/confusion_matrix.png - final confusion matrix
-Project structure
-federated_nids_project/
+The central server combines these updates using Federated Averaging (FedAvg) to create a global model capable of classifying network traffic as either benign or malicious.
+
+The project simulates four independent clients communicating with a central coordinator through TCP sockets.
+
+## 2. Objectives
+
+- Understand the concept and working of Federated Learning.
+- Demonstrate distributed machine learning across multiple clients.
+- Implement network communication using TCP sockets.
+- Apply Logistic Regression for binary network traffic classification.
+- Implement Federated Averaging (FedAvg).
+- Evaluate the global model using standard classification metrics.
+
+## 3. Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| Scikit-learn | Machine learning |
+| NumPy | Numerical operations |
+| Matplotlib | Graphs and visualisation |
+| TCP Sockets | Client-server communication |
+| JSON | Data and model parameter exchange |
+| Federated Learning | Distributed model training |
+
+## 4. System Architecture
+
+The project consists of four simulated clients and one central server.
+
+1. Each client receives its own synthetic network traffic dataset.
+2. Each client trains a Logistic Regression model locally.
+3. Clients send their model parameters to the central server using TCP sockets.
+4. The server aggregates the model parameters using Federated Averaging.
+5. The updated global model is returned to the clients.
+6. The process repeats over multiple communication rounds.
+7. The final global model is evaluated using separate test data.
+
+**Important:** The original training records remain local to each simulated client. Only model updates are exchanged.
+
+## 5. Machine Learning Model
+
+The project uses Logistic Regression for binary classification.
+
+The model classifies network traffic into two categories:
+
+- **Benign (0):** Normal network traffic.
+- **Attack (1):** Potentially malicious network traffic.
+
+The model uses six traffic features:
+
+- Connection duration
+- Packet count
+- Byte count
+- Failed login attempts
+- Unusual port score
+- Connection rate
+
+## 6. Federated Averaging (FedAvg)
+
+Federated Averaging is the aggregation algorithm used by the central server.
+
+Instead of collecting the original training data, the server receives model parameters from participating clients and calculates a weighted average.
+
+The aggregation formula is:
+
+\[
+W_{global}=\sum_{k=1}^{K}\frac{n_k}{N}W_k
+\]
+
+Where:
+
+- \(W_{global}\) = Global model parameters
+- \(W_k\) = Local model parameters
+- \(n_k\) = Number of training samples at client \(k\)
+- \(N\) = Total training samples
+- \(K\) = Total number of clients
+
+## 7. Project Results
+
+The demonstration was evaluated using a separate synthetic test dataset.
+
+| Evaluation Metric | Result |
+|---|---:|
+| Accuracy | 91.92% |
+| Precision | 93.45% |
+| Recall | 87.01% |
+| F1-Score | 90.11% |
+
+### Confusion Matrix
+
+| Actual / Predicted | Benign | Attack |
+|---|---:|---:|
+| Benign | 661 | 31 |
+| Attack | 66 | 442 |
+
+The model achieved 91.92% classification accuracy in the demonstration.
+
+**Note:** These results are based on synthetically generated network traffic and should not be interpreted as real-world intrusion detection performance.
+
+## 8. Project Structure
+
+```text
+Federated-Learning-Network-Intrusion-Detection/
+│
 ├── federated_ids/
-│   ├── __init__.py
-│   ├── data.py
-│   ├── metrics.py
-│   ├── model.py
-│   └── network.py
+│
 ├── outputs/
+│   ├── training_accuracy.png
+│   ├── confusion_matrix.png
+│   ├── evaluation_metrics.json
+│   ├── final_model.json
+│   ├── round_metrics.csv
+│   └── run_log.txt
+│
 ├── main.py
 ├── requirements.txt
 └── README.md
-Model inputs
-Feature	Meaning
-duration_norm	Normalized connection duration
-packet_count_norm	Normalized packet count
-byte_count_norm	Normalized bytes transferred
-failed_logins_norm	Normalized failed-login count
-unusual_port_score_norm	Normalized score indicating unusual destination-port activity
-connection_rate_norm	Normalized connection rate
-Simplified FedAvg equation
-For client model parameters (w_k), local sample count (n_k), and total sample count (N), the server calculates:
+```
 
-[ w_{global} = \sum_{k=1}^{K} \frac{n_k}{N} w_k ]
+## 9. Limitations
 
-The same weighted averaging is applied to the model bias. The clients keep their local traffic records; the coordinator receives model parameters only over the TCP connection.
+- The project uses synthetic network traffic rather than a real-world intrusion detection dataset.
+- All four clients are simulated on a single computer using localhost.
+- Logistic Regression is used as a simple baseline model.
+- Additional security mechanisms such as differential privacy and secure aggregation are not implemented.
 
-Suggested demonstration
-Explain the TCP client-server flow, run python main.py, point out that each client has a different simulated traffic distribution, and show the saved training curve and confusion matrix. Be clear that the data is synthetic and the TCP exchange uses the local loopback interface.
+## 10. Future Scope
+
+- Integrate real-world datasets such as CIC-IDS2017 or UNSW-NB15.
+- Deploy clients across multiple physical computers.
+- Experiment with advanced models such as Random Forest and Neural Networks.
+- Implement secure aggregation and differential privacy.
+- Extend the system to identify different categories of network attacks.
+- Develop a real-time network intrusion monitoring dashboard.
+
+## 11. Team Members
+
+| Name | Role | Student ID |
+|---|---|---|
+| Rishit Jha | Team Lead | KU2407U181 |
+| Team Member 2 | Team Member | KU2407U145 |
+| Team Member 3 | Team Member | KU2407U214 |
+| Team Member 4 | Team Member | KU2407U138 |
+
+## 12. Conclusion
+
+This project demonstrates how Federated Learning can be applied to network intrusion detection.
+
+By allowing multiple clients to train models locally and share model parameters through TCP communication, the system demonstrates a distributed approach to machine learning without centrally collecting the original training data.
+
+The project provides a practical introduction to the combination of Computer Networks, Machine Learning, and Cybersecurity.
+
+---
+
+**Academic Project:** Computer Networks Mini Project  
+**Institution:** Unitedworld Institute of Technology, Karnavati University  
+**Department:** Computer Science Engineering
