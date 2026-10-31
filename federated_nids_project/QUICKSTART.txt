@@ -1,0 +1,28 @@
+FEDERATED LEARNING FOR NETWORK INTRUSION DETECTION
+Computer Networks Mini Project - Group 16
+
+RUN ON WINDOWS
+1. Install Python 3.10 or newer.
+2. Extract this project ZIP.
+3. Open PowerShell or Command Prompt in the extracted folder.
+4. Create a virtual environment:
+   py -m venv .venv
+5. Activate it:
+   PowerShell: .\.venv\Scripts\Activate.ps1
+   CMD:        .venv\Scripts\activate.bat
+6. Install packages:
+   python -m pip install -r requirements.txt
+7. Run:
+   python main.py
+
+The program communicates between four client workers and a coordinator using
+TCP sockets on 127.0.0.1. Only JSON model parameters are sent; raw traffic data
+is not sent. The clients and coordinator run on the same computer in this demo.
+
+The run creates evaluation_metrics.json, final_model.json, round_metrics.csv,
+training_accuracy.png, and confusion_matrix.png inside outputs/.
+
+IMPORTANT LIMITATION
+The dataset is synthetic. This is a learning prototype, not a validated,
+production-ready intrusion-detection system. It does not implement client
+authentication, TLS, secure aggregation, or differential privacy.

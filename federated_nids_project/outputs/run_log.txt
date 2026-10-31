@@ -1,0 +1,23 @@
+==============================================================
+ FEDERATED LEARNING FOR NETWORK INTRUSION DETECTION
+==============================================================
+Simulated clients : 4
+Training records  : 3,600
+Test records      : 1,200
+Input features    : 6
+Transport          : TCP sockets over 127.0.0.1
+Data exchange     : JSON model parameters only (no raw records)
+
+Training global model using FedAvg...
+
+Training completed.
+Final test accuracy : 91.92%
+Precision           : 93.45%
+Recall              : 87.01%
+F1-score            : 90.11%
+
+Confusion matrix [actual rows: benign, attack]:
+[[661  31]
+ [ 66 442]]
+
+Outputs saved to: outputs

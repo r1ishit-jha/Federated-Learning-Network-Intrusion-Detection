@@ -1,0 +1,19 @@
+{
+  "weights": [
+    0.9912647185525277,
+    0.43540828852030533,
+    1.1855472072558848,
+    2.2787549244011234,
+    2.2499465646917214,
+    1.6366554864299145
+  ],
+  "bias": -3.4872536927521542,
+  "features": [
+    "duration_norm",
+    "packet_count_norm",
+    "byte_count_norm",
+    "failed_logins_norm",
+    "unusual_port_score_norm",
+    "connection_rate_norm"
+  ]
+}
