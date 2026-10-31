@@ -150,13 +150,11 @@ Federated-Learning-Network-Intrusion-Detection/
 - Develop a real-time network intrusion monitoring dashboard.
 
 ## 11. Team Members
-
-| Name | Role | Student ID |
 |---|---|---|
-| Rishit Jha | Team Lead | KU2407U181 |
-| Team Member 2 | Team Member | KU2407U145 |
-| Team Member 3 | Team Member | KU2407U214 |
-| Team Member 4 | Team Member | KU2407U138 |
+| Rishit Jha | Team Lead |
+| Sumeet Wagh | Team Member |
+| Neel Jeswani | Team Member |
+| Hamza | Team Member |
 
 ## 12. Conclusion
 
